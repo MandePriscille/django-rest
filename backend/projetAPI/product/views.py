@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import ProductSerializer
-from rest_framework import generics, mixins
+from rest_framework import authentication ,generics, mixins, permissions
 
 # @api_view(['POST'])
 # def api_view(request):
@@ -68,6 +68,8 @@ class DeleteApiView(generics.DestroyAPIView):
 class ListApiView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = []
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return super().get_queryset().filter(name="avocat")
@@ -81,6 +83,7 @@ class ProductMixinView(generics.GenericAPIView,
     
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly ,permissions.IsAuthenticated]
     lookup_field = 'pk'
 
     def perform_create(self, serializer):
