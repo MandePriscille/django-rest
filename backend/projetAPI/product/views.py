@@ -64,3 +64,8 @@ class DeleteApiView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
+
+class ListApiView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
