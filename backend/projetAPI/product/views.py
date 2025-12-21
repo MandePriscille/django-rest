@@ -81,6 +81,7 @@ class ProductMixinView(generics.GenericAPIView,
     
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    lookup_field = 'pk'
 
     def perform_create(self, serializer):
         name = serializer.validated_data.get('name')
@@ -96,9 +97,28 @@ class ProductMixinView(generics.GenericAPIView,
             content = name
             serializer.save(content=content)
 
-    def get_queryset(self):
-        return super().get_queryset().filter(name="avocat")
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
     
-    
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(name="avocat")
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+    
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        if pk is None:
+            # return self.retrieve(request, *args, **kwargs)
+            pass
+        return self.list(request, *args, **kwargs)
+    
+    

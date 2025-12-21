@@ -9,7 +9,12 @@ urlpatterns = [
     path('update/<int:pk>/', UpdateApiView.as_view()),
     path('delete/<int:pk>/', DeleteApiView.as_view()),
     path('list/', ListApiView.as_view()),
-    path('mixins/', ProductMixinView.as_view()),
+    #Mixins
+    path('create-product/', ProductMixinView.as_view()),
+    path('update-product/<int:pk>/', ProductMixinView.as_view()),
+    path('delete-product/<int:pk>/', ProductMixinView.as_view()),
+    path('list-product/', ProductMixinView.as_view()),
+    path('detail-product/<int:pk>/', ProductMixinView.as_view()),
 
 
 ]
