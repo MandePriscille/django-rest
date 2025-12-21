@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import ProductSerializer
-from rest_framework import generics
+from rest_framework import generics, mixins
 
 # @api_view(['POST'])
 # def api_view(request):
@@ -68,4 +68,37 @@ class DeleteApiView(generics.DestroyAPIView):
 class ListApiView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(name="avocat")
+
+
+class ProductMixinView(generics.GenericAPIView,
+                       mixins.CreateModelMixin,
+                       mixins.UpdateModelMixin,
+                       mixins.ListModelMixin,
+                       mixins.DestroyModelMixin):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def perform_create(self, serializer):
+        name = serializer.validated_data.get('name')
+        content = serializer.validated_data.get('content', '') or None
+        if content is None:
+            content = name
+        serializer.save(content=content)
+
+    def perform_update(self, serializer):
+        name = serializer.validated_data.get('name')
+        content = serializer.validated_data.get('content', '') or None
+        if content is None:
+            content = name
+            serializer.save(content=content)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(name="avocat")
+    
+    
+
 
