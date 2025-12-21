@@ -5,17 +5,18 @@ from django.forms.models import model_to_dict
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import ProductSerializer
+from rest_framework import generics
 
-@api_view(['POST'])
-def api_view(request):
-    # query = Product.objects.all().order_by('?').first()
-    # serializer = {}
-    serializer = ProductSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data)
-    else:
-        return Response({'details':"invalid data"})
+# @api_view(['POST'])
+# def api_view(request):
+#     # query = Product.objects.all().order_by('?').first()
+#     # serializer = {}
+#     serializer = ProductSerializer(data=request.data)
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save()
+#         return Response(serializer.data)
+#     else:
+#         return Response({'details':"invalid data"})
     
     # data = request.data
     # if query:
@@ -27,3 +28,10 @@ def api_view(request):
 
      
     # return Response(data)
+
+
+class DetailApiView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    
