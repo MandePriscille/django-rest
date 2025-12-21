@@ -45,4 +45,9 @@ class CreateApiView(generics.CreateAPIView):
         if content is None:
             content = name
         serializer.save(content=content)
+
+
+class UpdateApiView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
     
