@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from .models import Product
 from django.http import JsonResponse
@@ -6,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import ProductSerializer
 from rest_framework import authentication ,generics, mixins, permissions
+
+from .permissions import IsStaffPermissions
 
 # @api_view(['POST'])
 # def api_view(request):
@@ -68,7 +71,7 @@ class DeleteApiView(generics.DestroyAPIView):
 class ListApiView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = []
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
