@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import ProductSerializer
 from rest_framework import authentication ,generics, mixins, permissions
+from .authetification import TokenAuthentication
 
 from .permissions import IsStaffPermissions
 
@@ -71,8 +72,8 @@ class DeleteApiView(generics.DestroyAPIView):
 class ListApiView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return super().get_queryset().filter(name="avocat")
