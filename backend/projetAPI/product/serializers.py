@@ -6,9 +6,10 @@ class ProductSerializer(serializers.ModelSerializer):
     my_discount = serializers.SerializerMethodField(read_only=True)
     email = serializers.EmailField(write_only=True)
     name = serializers.CharField(validators=[validate_product_name])
+    user_name = serializers.CharField(source="user.username", read_only=True)
     class Meta:
         model = Product
-        fields = ('email', 'pk', 'name', 'content', 'price', 'my_discount')
+        fields = ('user_name','email', 'pk', 'name', 'content', 'price', 'my_discount')
 
     def create(self, validated_data):
         email = validated_data.pop('email')

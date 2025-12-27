@@ -48,7 +48,7 @@ class CreateApiView(generics.CreateAPIView):
         content = serializer.validated_data.get('content', '') or None
         if content is None:
             content = name
-        serializer.save(content=content)
+        serializer.save(content=content, user=self.request.user)
 
 
 class UpdateApiView(generics.UpdateAPIView):
@@ -75,8 +75,10 @@ class ListApiView(generics.ListAPIView):
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        return super().get_queryset().filter(name="avocat")
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        user = self.request.user
+        return qs.filter(user=user)
 
 
 class ProductMixinView(generics.GenericAPIView,

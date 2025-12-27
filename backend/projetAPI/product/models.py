@@ -1,7 +1,10 @@
 from django.db import models
+from django.conf import settings
 
+User = settings.AUTH_USER_MODEL
 
-class Product(models.Model):
+class  Product(models.Model):
+    user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_DEFAULT )
     name = models.CharField(max_length=100)
     content = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
