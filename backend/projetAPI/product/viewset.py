@@ -1,7 +1,7 @@
 
 from .models import Product
 from .serializers import ProductSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 
 
 class ProductViewset(viewsets.ModelViewSet):
@@ -17,4 +17,8 @@ class ProductViewset(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 
+class ProductListRetrive(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+    
+    queryset= Product.objects.all()
+    serializer_class = ProductSerializer
 
